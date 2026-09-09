@@ -1,0 +1,348 @@
+:root {
+    --bg-primary: #000000;
+    --bg-overlay: rgba(0, 0, 0, 0.6);
+    --bg-modal: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.5);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --border-active: #ffffff;
+    --btn-bg: rgba(255, 255, 255, 0.15);
+    --btn-hover: rgba(255, 255, 255, 0.12);
+    --btn-active-bg: rgba(255, 255, 255, 0.15);
+    --dashed-color: rgba(255, 255, 255, 0.5);
+    --modal-overlay: rgba(0, 0, 0, 0.85);
+    --shadow-color: rgba(0, 0, 0, 0.8);
+    --btn-primary-bg: #ffffff;
+    --btn-primary-hover: #e8e8e8;
+    --btn-primary-text: #000000;
+    --btn-secondary-bg: rgba(255, 255, 255, 0.12);
+    --btn-secondary-hover: rgba(255, 255, 255, 0.2);
+    --btn-secondary-text: #ffffff;
+    --shutter-border: rgba(255, 255, 255, 0.9);
+    --shutter-inner-bg: #ffffff;
+    --shutter-disabled: rgba(255, 255, 255, 0.5);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+    --font-size-sm: 12px;
+    --font-size-md: 13px;
+    --font-size-lg: 14px;
+    --font-size-xl: 15px;
+    --shutter-size: 72px;
+    --shutter-inner: 56px;
+    --border-width: 2px;
+    --blur-amount: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    height: 100dvh;
+    overflow: hidden;
+    user-select: none;
+}
+
+#app {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+#topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--bg-overlay);
+    backdrop-filter: blur(var(--blur-amount));
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+#statusHint {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+#cardInfo {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    background: var(--bg-overlay);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+}
+
+#previewArea {
+    flex: 1;
+    position: relative;
+    background: var(--bg-primary);
+    overflow: hidden;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#videoContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#cardContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+#cardContainer canvas {
+    display: block;
+    position: relative;
+}
+
+#dashedBorder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: var(--border-width) dashed var(--dashed-color);
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    z-index: 3;
+}
+
+#bottomBar {
+    flex-shrink: 0;
+    padding: var(--spacing-md) 0 var(--spacing-xl);
+    background: var(--bg-overlay);
+    backdrop-filter: blur(var(--blur-amount));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+#cardOptionsWrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 16px;
+    scrollbar-width: none;
+}
+
+#cardOptionsWrapper::-webkit-scrollbar {
+    display: none;
+}
+
+#cardOptions {
+    display: flex;
+    gap: var(--spacing-sm);
+    white-space: nowrap;
+    padding: var(--border-width) 0;
+}
+
+#cardOptions button {
+    padding: 5px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--btn-bg);
+    color: var(--text-muted);
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    backdrop-filter: blur(var(--spacing-xs));
+}
+
+#cardOptions button:hover {
+    background: var(--btn-hover);
+}
+
+#cardOptions button.active {
+    border-color: var(--border-active);
+    background: var(--btn-active-bg);
+    color: var(--text-primary);
+}
+
+#shutterArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--border-width);
+}
+
+#captureBtn {
+    width: var(--shutter-size);
+    height: var(--shutter-size);
+    border-radius: 50%;
+    border: 4px solid var(--shutter-border);
+    background: var(--btn-bg);
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    flex-shrink: 0;
+}
+
+#captureBtn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--shutter-inner);
+    height: var(--shutter-inner);
+    border-radius: 50%;
+    background: var(--shutter-inner-bg);
+    transition: all 0.15s;
+}
+
+#captureBtn:active::after {
+    transform: translate(-50%, -50%) scale(0.85);
+}
+
+#captureBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#captureBtn:disabled::after {
+    background: var(--shutter-disabled);
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--modal-overlay);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    backdrop-filter: blur(20px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-modal);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.modal-content h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.modal-content p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 55dvh;
+    display: block;
+    border-radius: var(--radius-sm);
+    object-fit: contain;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.modal-buttons button {
+    padding: 10px 32px;
+    border: none;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex: 1;
+}
+
+.modal-buttons button:active {
+    transform: scale(0.95);
+}
+
+.modal-buttons .btn-primary {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+
+.modal-buttons .btn-primary:hover {
+    background: var(--btn-primary-hover);
+}
+
+.modal-buttons .btn-secondary {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+}
+
+.modal-buttons .btn-secondary:hover {
+    background: var(--btn-secondary-hover);
+}
+
+.modal-buttons .btn-full {
+    flex: none;
+    width: 100%;
+}
