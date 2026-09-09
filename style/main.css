@@ -58,6 +58,7 @@ body {
     user-select: none;
 }
 
+/* ===== 主容器 ===== */
 #app {
     height: 100dvh;
     display: flex;
@@ -68,6 +69,7 @@ body {
     position: relative;
 }
 
+/* ===== 顶部状态栏 ===== */
 #topBar {
     display: flex;
     justify-content: space-between;
@@ -95,6 +97,7 @@ body {
     white-space: nowrap;
 }
 
+/* ===== 预览区域（拍摄+透卡叠加） ===== */
 #previewArea {
     flex: 1;
     position: relative;
@@ -124,6 +127,7 @@ body {
     left: 0;
 }
 
+/* ===== 透卡容器 ===== */
 #cardContainer {
     position: relative;
     display: flex;
@@ -137,6 +141,7 @@ body {
     position: relative;
 }
 
+/* ===== 虚线边框（标出透卡范围） ===== */
 #dashedBorder {
     position: absolute;
     top: 0;
@@ -149,6 +154,7 @@ body {
     z-index: 3;
 }
 
+/* ===== 底部控制栏 ===== */
 #bottomBar {
     flex-shrink: 0;
     padding: var(--spacing-md) 0 var(--spacing-xl);
@@ -160,6 +166,7 @@ body {
     gap: var(--spacing-sm);
 }
 
+/* ===== 透卡选择（横向滚动） ===== */
 #cardOptionsWrapper {
     width: 100%;
     overflow-x: auto;
@@ -203,6 +210,7 @@ body {
     color: var(--text-primary);
 }
 
+/* ===== 快门按钮 ===== */
 #shutterArea {
     display: flex;
     align-items: center;
@@ -248,6 +256,7 @@ body {
     background: var(--shutter-disabled);
 }
 
+/* ===== 弹窗 ===== */
 .modal-overlay {
     display: none;
     position: fixed;
