@@ -94,6 +94,4 @@ kind of legal claim.***
 
 ---
 
-Copyright (c) 2026 TTQWNTian
-
 Required Notice: Copyright (c) 2026 TTQWNTian (https://ttqwntian.top)
