@@ -81,6 +81,12 @@ body {
     flex-shrink: 0;
 }
 
+#topBarRight {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
 #statusHint {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
@@ -97,7 +103,91 @@ body {
     white-space: nowrap;
 }
 
-/* ===== 预览区域（拍摄+透卡叠加） ===== */
+#moreBtn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 4px 12px;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    backdrop-filter: blur(var(--spacing-xs));
+}
+
+#moreBtn:hover {
+    background: var(--btn-hover);
+}
+
+/* ===== 更多面板 ===== */
+#morePanel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transform: translateY(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-primary);
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+}
+
+#morePanel.open {
+    transform: translateY(0);
+}
+
+#morePanelContent {
+    padding: var(--spacing-lg);
+    max-height: 50dvh;
+    overflow-y: auto;
+}
+
+/* ===== 网格布局 ===== */
+#morePanelBody {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.more-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    background: var(--btn-bg);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    min-height: 64px;
+    gap: var(--spacing-xs);
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.more-item:hover {
+    background: var(--btn-hover);
+    border-color: var(--border-color);
+}
+
+.more-item span:first-child {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.more-item span:last-child {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+}
+
+.status-on {
+    color: var(--text-secondary) !important;
+}
+
+.status-off {
+    color: var(--text-muted) !important;
+}
+
+/* ===== 预览区域 ===== */
 #previewArea {
     flex: 1;
     position: relative;
@@ -141,7 +231,7 @@ body {
     position: relative;
 }
 
-/* ===== 虚线边框（标出透卡范围） ===== */
+/* ===== 虚线边框 ===== */
 #dashedBorder {
     position: absolute;
     top: 0;
@@ -166,7 +256,7 @@ body {
     gap: var(--spacing-sm);
 }
 
-/* ===== 透卡选择（横向滚动） ===== */
+/* ===== 透卡选择 ===== */
 #cardOptionsWrapper {
     width: 100%;
     overflow-x: auto;

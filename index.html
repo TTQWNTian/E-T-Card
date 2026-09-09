@@ -18,12 +18,27 @@
         </div>
     </div>
 
+    <!-- 更多面板 -->
+    <div id="morePanel">
+        <div id="morePanelContent">
+            <div id="morePanelBody">
+                <div class="more-item" id="fullscreenItem">
+                    <span>全屏模式</span>
+                    <span id="fullscreenStatus" class="status-off">未开启</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 主界面 -->
     <div id="app">
         <!-- 顶栏 -->
         <div id="topBar">
             <span id="statusHint">相机已就绪</span>
-            <span id="cardInfo">无透卡</span>
+            <div id="topBarRight">
+                <span id="cardInfo">无透卡</span>
+                <button id="moreBtn">更多</button>
+            </div>
         </div>
 
         <!-- 预览区 -->
