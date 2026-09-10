@@ -1,27 +1,24 @@
 :root {
     --bg-primary: #000000;
-    --bg-overlay: rgba(0, 0, 0, 0.6);
+    --bg-secondary: #0a0a0a;
+    --bg-card: #1a1a1a;
     --bg-modal: #1a1a1a;
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-secondary: rgba(255, 255, 255, 0.85);
     --text-muted: rgba(255, 255, 255, 0.5);
-    --border-color: rgba(255, 255, 255, 0.2);
+    --border-color: rgba(255, 255, 255, 0.15);
     --border-active: #ffffff;
-    --btn-bg: rgba(255, 255, 255, 0.15);
-    --btn-hover: rgba(255, 255, 255, 0.12);
-    --btn-active-bg: rgba(255, 255, 255, 0.15);
-    --dashed-color: rgba(255, 255, 255, 0.5);
+    --btn-bg: rgba(255, 255, 255, 0.08);
+    --btn-hover: rgba(255, 255, 255, 0.15);
+    --btn-active-bg: rgba(255, 255, 255, 0.2);
+    --dashed-color: rgba(255, 255, 255, 0.4);
     --modal-overlay: rgba(0, 0, 0, 0.85);
-    --shadow-color: rgba(0, 0, 0, 0.8);
     --btn-primary-bg: #ffffff;
     --btn-primary-hover: #e8e8e8;
     --btn-primary-text: #000000;
-    --btn-secondary-bg: rgba(255, 255, 255, 0.12);
-    --btn-secondary-hover: rgba(255, 255, 255, 0.2);
+    --btn-secondary-bg: rgba(255, 255, 255, 0.15);
+    --btn-secondary-hover: rgba(255, 255, 255, 0.25);
     --btn-secondary-text: #ffffff;
-    --shutter-border: rgba(255, 255, 255, 0.9);
-    --shutter-inner-bg: #ffffff;
-    --shutter-disabled: rgba(255, 255, 255, 0.5);
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
@@ -30,15 +27,12 @@
     --spacing-sm: 8px;
     --spacing-md: 12px;
     --spacing-lg: 20px;
-    --spacing-xl: 24px;
+    --spacing-xl: 30px;
     --font-size-sm: 12px;
     --font-size-md: 13px;
     --font-size-lg: 14px;
     --font-size-xl: 15px;
-    --shutter-size: 72px;
-    --shutter-inner: 56px;
     --border-width: 2px;
-    --blur-amount: 10px;
 }
 
 * {
@@ -64,21 +58,17 @@ body {
     display: flex;
     flex-direction: column;
     background: var(--bg-primary);
-    max-width: 100%;
-    margin: 0 auto;
-    position: relative;
 }
 
-/* ===== 顶部状态栏 ===== */
+/* ===== 顶部栏 ===== */
 #topBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-md) var(--spacing-lg);
-    background: var(--bg-overlay);
-    backdrop-filter: blur(var(--blur-amount));
-    z-index: 10;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
     flex-shrink: 0;
+    z-index: 10;
 }
 
 #topBarRight {
@@ -90,17 +80,11 @@ body {
 #statusHint {
     font-size: var(--font-size-lg);
     color: var(--text-secondary);
-    font-weight: 400;
-    letter-spacing: 0.3px;
 }
 
 #cardInfo {
     font-size: var(--font-size-sm);
     color: var(--text-muted);
-    background: var(--bg-overlay);
-    padding: var(--spacing-xs) var(--spacing-md);
-    border-radius: var(--radius-md);
-    white-space: nowrap;
 }
 
 #moreBtn {
@@ -111,7 +95,6 @@ body {
     border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
     cursor: pointer;
-    backdrop-filter: blur(var(--spacing-xs));
 }
 
 #moreBtn:hover {
@@ -127,7 +110,7 @@ body {
     z-index: 100;
     transform: translateY(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
     border-bottom-left-radius: var(--radius-xl);
     border-bottom-right-radius: var(--radius-xl);
 }
@@ -155,7 +138,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-md);
-    background: var(--btn-bg);
+    background: var(--bg-card);
     border-radius: var(--radius-xl);
     cursor: pointer;
     min-height: 64px;
@@ -228,7 +211,6 @@ body {
 
 #cardContainer canvas {
     display: block;
-    position: relative;
 }
 
 /* ===== 虚线边框 ===== */
@@ -244,19 +226,18 @@ body {
     z-index: 3;
 }
 
-/* ===== 底部控制栏 ===== */
+/* ===== 底部栏 ===== */
 #bottomBar {
     flex-shrink: 0;
     padding: var(--spacing-md) 0 var(--spacing-xl);
-    background: var(--bg-overlay);
-    backdrop-filter: blur(var(--blur-amount));
+    background: var(--bg-secondary);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-sm);
 }
 
-/* ===== 透卡选择 ===== */
+/* ===== 透卡选择（横向滚动） ===== */
 #cardOptionsWrapper {
     width: 100%;
     overflow-x: auto;
@@ -281,13 +262,12 @@ body {
     padding: 5px 16px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    background: var(--btn-bg);
+    background: var(--bg-card);
     color: var(--text-muted);
     font-size: var(--font-size-md);
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
-    backdrop-filter: blur(var(--spacing-xs));
 }
 
 #cardOptions button:hover {
@@ -300,20 +280,20 @@ body {
     color: var(--text-primary);
 }
 
-/* ===== 快门按钮 ===== */
+/* ===== 快门 ===== */
 #shutterArea {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: var(--border-width);
+    padding-top: 2px;
 }
 
 #captureBtn {
-    width: var(--shutter-size);
-    height: var(--shutter-size);
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    border: 4px solid var(--shutter-border);
-    background: var(--btn-bg);
+    border: 4px solid rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.15);
     cursor: pointer;
     transition: all 0.15s;
     position: relative;
@@ -326,10 +306,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: var(--shutter-inner);
-    height: var(--shutter-inner);
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: var(--shutter-inner-bg);
+    background: #ffffff;
     transition: all 0.15s;
 }
 
@@ -343,7 +323,7 @@ body {
 }
 
 #captureBtn:disabled::after {
-    background: var(--shutter-disabled);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* ===== 弹窗 ===== */
@@ -359,7 +339,6 @@ body {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-lg);
-    backdrop-filter: blur(20px);
 }
 
 .modal-overlay.active {
