@@ -441,7 +441,18 @@
     }
 
     // ===== 渲染相册 =====
+    let renderScheduled = false;
+
     function renderGallery() {
+        if (renderScheduled) return;
+        renderScheduled = true;
+        queueMicrotask(() => {
+            renderScheduled = false;
+            renderGalleryNow();
+        });
+    }
+
+    function renderGalleryNow() {
         galleryGrid.innerHTML = "";
         const all = getAllCards();
         const builtinCount = cardPresets.length;
@@ -571,13 +582,12 @@
         }
 
         await loadLocalCards();
-        renderGallery();
 
         const total = getAllCards().length;
         if (success > 0) {
             switchCard(total - 1);
-            renderGallery();
         }
+        renderGallery();
 
         statusHint.textContent =
             fail === 0 ?
