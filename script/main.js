@@ -139,10 +139,16 @@
         },
         {
             label: "本当の愛",
-            dataUrl: "assets/cards/1.png",
+            dataUrl: "assets/cards/本当の愛.png",
             width: 1080,
             height: 1527,
         },
+        {
+            label: "晋江の稲妻",
+            dataUrl: "assets/cards/晋江の稲妻.png",
+            width: 1080,
+            height: 1440,
+        }
     ];
 
     // ===== 滤镜数据 =====
