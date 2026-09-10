@@ -136,7 +136,7 @@ body {
 #morePanelFooter {
     padding-top: var(--spacing-lg);
     margin-top: var(--spacing-lg);
-    border-top: 2px solid var(--border-color);
+    border-top: 1.5px solid var(--border-color);
     text-align: center;
     color: var(--text-muted);
     font-size: var(--font-size-sm);
