@@ -40,6 +40,7 @@
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
     outline: none;
 }
 
@@ -88,17 +89,18 @@ body {
 }
 
 #moreBtn {
-    background: var(--btn-bg);
-    border: 1px solid var(--border-color);
+    background: none;
+    border: none;
     color: var(--text-secondary);
-    padding: 4px 12px;
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
     cursor: pointer;
+    padding: 0 0 0 var(--spacing-md);
+    line-height: 1;
+    display: flex;
+    align-items: center;
 }
 
 #moreBtn:hover {
-    background: var(--btn-hover);
+    color: var(--text-primary);
 }
 
 /* ===== 更多面板 ===== */
@@ -125,7 +127,6 @@ body {
     overflow-y: auto;
 }
 
-/* ===== 网格布局 ===== */
 #morePanelBody {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -168,6 +169,105 @@ body {
 
 .status-off {
     color: var(--text-muted) !important;
+}
+
+/* ===== 相册界面 ===== */
+#galleryPanel {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    z-index: 200;
+    flex-direction: column;
+}
+
+#galleryPanel.open {
+    display: flex;
+}
+
+#galleryHeader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+}
+
+#galleryHeader > span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+}
+
+#galleryCloseBtn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+#galleryCloseBtn:hover {
+    color: var(--text-primary);
+}
+
+#galleryGrid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    align-content: start;
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--bg-card);
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px dashed transparent;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-item.active {
+    border-color: var(--border-active);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.gallery-item .gallery-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--modal-overlay);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+
+.gallery-item .gallery-empty {
+    color: var(--text-muted);
+    font-size: var(--font-size-md);
 }
 
 /* ===== 预览区域 ===== */
@@ -237,8 +337,8 @@ body {
     gap: var(--spacing-sm);
 }
 
-/* ===== 透卡选择（横向滚动） ===== */
-#cardOptionsWrapper {
+/* ===== 滤镜选择 ===== */
+#filterOptionsWrapper {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
@@ -247,18 +347,18 @@ body {
     scrollbar-width: none;
 }
 
-#cardOptionsWrapper::-webkit-scrollbar {
+#filterOptionsWrapper::-webkit-scrollbar {
     display: none;
 }
 
-#cardOptions {
+#filterOptions {
     display: flex;
     gap: var(--spacing-sm);
     white-space: nowrap;
     padding: var(--border-width) 0;
 }
 
-#cardOptions button {
+#filterOptions button {
     padding: 5px 16px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -270,22 +370,38 @@ body {
     flex-shrink: 0;
 }
 
-#cardOptions button:hover {
+#filterOptions button:hover {
     background: var(--btn-hover);
 }
 
-#cardOptions button.active {
+#filterOptions button.active {
     border-color: var(--border-active);
     background: var(--btn-active-bg);
     color: var(--text-primary);
 }
 
-/* ===== 快门 ===== */
+/* ===== 快门区 ===== */
 #shutterArea {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 2px;
+    gap: 40px;
+    padding-top: var(--spacing-md);
+}
+
+.circle-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.circle-btn:active {
+    transform: scale(0.92);
 }
 
 #captureBtn {
@@ -324,6 +440,14 @@ body {
 
 #captureBtn:disabled::after {
     background: rgba(255, 255, 255, 0.3);
+}
+
+#galleryBtn {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    position: relative;
 }
 
 /* ===== 弹窗 ===== */

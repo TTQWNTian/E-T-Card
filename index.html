@@ -1,67 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
-    <link rel="stylesheet" href="style/main.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <link rel="stylesheet" href="style/main.css" />
     <title>E-T-Card</title>
-</head>
-<body>
+  </head>
+  <body>
     <!-- 弹窗 -->
     <div id="modalOverlay" class="modal-overlay">
-        <div class="modal-content" id="modalContent">
-            <h2 id="modalTitle"></h2>
-            <p id="modalDesc"></p>
-            <img id="modalImg" src="" alt="" style="display:none;" />
-            <div class="modal-buttons" id="modalButtons"></div>
-        </div>
+      <div class="modal-content" id="modalContent">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDesc"></p>
+        <img id="modalImg" src="" alt="" style="display: none" />
+        <div class="modal-buttons" id="modalButtons"></div>
+      </div>
     </div>
 
     <!-- 更多面板 -->
     <div id="morePanel">
-        <div id="morePanelContent">
-            <div id="morePanelBody">
-                <div class="more-item" id="fullscreenItem">
-                    <span>全屏模式</span>
-                    <span id="fullscreenStatus" class="status-off">未开启</span>
-                </div>
-            </div>
+      <div id="morePanelContent">
+        <div id="morePanelBody">
+          <div class="more-item" id="fullscreenItem">
+            <span>全屏模式</span>
+            <span id="fullscreenStatus" class="status-off">未开启</span>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- 相册界面 -->
+    <div id="galleryPanel">
+      <div id="galleryHeader">
+        <button id="galleryCloseBtn" aria-label="返回">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <span>选择透卡</span>
+      </div>
+      <div id="galleryGrid"></div>
+      <input
+        type="file"
+        id="cardFileInput"
+        accept="image/png,image/jpeg,image/webp"
+        style="display: none"
+      />
     </div>
 
     <!-- 主界面 -->
     <div id="app">
-        <!-- 顶栏 -->
-        <div id="topBar">
-            <span id="statusHint">相机已就绪</span>
-            <div id="topBarRight">
-                <span id="cardInfo">无透卡</span>
-                <button id="moreBtn">更多</button>
-            </div>
+      <!-- 顶栏 -->
+      <div id="topBar">
+        <span id="statusHint">相机已就绪</span>
+        <div id="topBarRight">
+          <span id="cardInfo">无透卡</span>
+          <button id="moreBtn" aria-label="更多">
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="19" cy="12" r="1"></circle>
+              <circle cx="5" cy="12" r="1"></circle>
+            </svg>
+          </button>
         </div>
+      </div>
 
-        <!-- 预览区 -->
-        <div id="previewArea">
-            <div id="videoContainer">
-                <video id="video" poster="favicon.png" autoplay playsinline muted></video>
-                <div id="cardContainer">
-                    <canvas id="cardCanvas"></canvas>
-                    <div id="dashedBorder"></div>
-                </div>
-            </div>
+      <!-- 预览区 -->
+      <div id="previewArea">
+        <div id="videoContainer">
+          <video
+            id="video"
+            poster="favicon.png"
+            autoplay
+            playsinline
+            muted
+          ></video>
+          <div id="cardContainer">
+            <canvas id="cardCanvas"></canvas>
+            <div id="dashedBorder"></div>
+          </div>
         </div>
+      </div>
 
-        <!-- 底栏 -->
-        <div id="bottomBar">
-            <div id="cardOptionsWrapper">
-                <div id="cardOptions"></div>
-            </div>
-            <div id="shutterArea">
-                <button id="captureBtn"></button>
-            </div>
+      <!-- 底栏 -->
+      <div id="bottomBar">
+        <div id="filterOptionsWrapper">
+          <div id="filterOptions"></div>
         </div>
+        <div id="shutterArea">
+          <button id="galleryBtn" class="circle-btn"></button>
+          <button id="captureBtn"></button>
+          <button id="reservedBtn" class="circle-btn"></button>
+        </div>
+      </div>
     </div>
     <script src="script/main.js"></script>
-</body>
+  </body>
 </html>
