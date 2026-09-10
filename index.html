@@ -1,129 +1,137 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
     <link rel="stylesheet" href="style/main.css" />
-    <title>E-T-Card</title>
-  </head>
-  <body>
+    
+    <title>E-T-Car | 电子透卡</title>
+    <meta name="description" content="E-T-Card 电子透卡相机，可以带着你的推/CP去任何地方，无限的亚克力片！" />
+    <meta name="keywords" content="电子透卡,透卡相机,亚克力片,打卡,推,二次元透卡,CP" />
+
+    <!-- 规范链接 -->
+    <link rel="canonical" href="https://e-t-card.ttqwn.top/" />
+
+    <!-- 社交分享 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="E-T-Card - 电子透卡" />
+    <meta property="og:description" content="可以带着你的推/CP去任何地方，无限的亚克力片！" />
+    <meta property="og:image" content="https://e-t-card.ttqwn.top/favicon.png" />
+    <meta property="og:url" content="https://e-t-card.ttqwn.top/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="E-T-Card - 电子透卡" />
+    <meta name="twitter:description" content="可以带着你的推/CP去任何地方，无限的亚克力片！" />
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "E-T-Card",
+          "alternateName": "电子透卡",
+          "url": "https://e-t-card.ttqwn.top/",
+          "description": "可以带着你的推/CP去任何地方，无限的亚克力片！",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "Web",
+          "browserRequirements": "需要支持摄像头权限的现代浏览器",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+          }
+        }
+    </script>
+</head>
+
+<body>
     <!-- 弹窗 -->
     <div id="modalOverlay" class="modal-overlay">
-      <div class="modal-content" id="modalContent">
-        <h2 id="modalTitle"></h2>
-        <p id="modalDesc"></p>
-        <img id="modalImg" src="" alt="" style="display: none" />
-        <div class="modal-buttons" id="modalButtons"></div>
-      </div>
+        <div class="modal-content" id="modalContent">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDesc"></p>
+            <img id="modalImg" src="" alt="" style="display: none" />
+            <div class="modal-buttons" id="modalButtons"></div>
+        </div>
     </div>
 
     <!-- 更多面板 -->
     <div id="morePanel">
-      <div id="morePanelContent">
-        <div id="morePanelBody">
-          <div class="more-item" id="fullscreenItem">
-            <span>全屏模式</span>
-            <span id="fullscreenStatus" class="status-off">未开启</span>
-          </div>
+        <div id="morePanelContent">
+            <div id="morePanelBody">
+                <div class="more-item" id="fullscreenItem">
+                    <span>全屏模式</span>
+                    <span id="fullscreenStatus" class="status-off">未开启</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- 背景特效面板 -->
     <div id="bgEffectPanel">
-      <div id="bgEffectList"></div>
-      <div id="bgEffectSliderWrap">
-        <input type="range" id="bgEffectSlider" min="0" max="100" value="50" />
-      </div>
+        <div id="bgEffectList"></div>
+        <div id="bgEffectSliderWrap">
+            <input type="range" id="bgEffectSlider" min="0" max="100" value="50" />
+        </div>
     </div>
 
     <!-- 相册界面 -->
     <div id="galleryPanel">
-      <div id="galleryHeader">
-        <button id="galleryCloseBtn" aria-label="返回">
-          <svg
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-        <span>选择透卡</span>
-      </div>
-      <div id="galleryGrid"></div>
-      <input
-        type="file"
-        id="cardFileInput"
-        style="display: none"
-      />
+        <div id="galleryHeader">
+            <button id="galleryCloseBtn" aria-label="返回">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <span>选择透卡</span>
+        </div>
+        <div id="galleryGrid"></div>
+        <input type="file" id="cardFileInput" style="display: none" />
     </div>
 
     <!-- 主界面 -->
     <div id="app">
-      <!-- 顶栏 -->
-      <div id="topBar">
-        <span id="statusHint">相机已就绪</span>
-        <div id="topBarRight">
-          <span id="cardInfo">无透卡</span>
-          <button id="moreBtn" aria-label="更多">
-            <svg
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="1"></circle>
-              <circle cx="19" cy="12" r="1"></circle>
-              <circle cx="5" cy="12" r="1"></circle>
-            </svg>
-          </button>
+        <!-- 顶栏 -->
+        <div id="topBar">
+            <span id="statusHint">相机已就绪</span>
+            <div id="topBarRight">
+                <span id="cardInfo">无透卡</span>
+                <button id="moreBtn" aria-label="更多">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
         </div>
-      </div>
 
-      <!-- 预览区 -->
-      <div id="previewArea">
-        <div id="videoContainer">
-          <video
-            id="video"
-            poster="favicon.png"
-            autoplay
-            playsinline
-            muted
-          ></video>
-          <canvas id="bgCanvas"></canvas>
-          <div id="cardContainer">
-            <canvas id="cardCanvas"></canvas>
-            <div id="dashedBorder"></div>
-          </div>
+        <!-- 预览区 -->
+        <div id="previewArea">
+            <div id="videoContainer">
+                <video id="video" poster="favicon.png" autoplay playsinline muted></video>
+                <canvas id="bgCanvas"></canvas>
+                <div id="cardContainer">
+                    <canvas id="cardCanvas"></canvas>
+                    <div id="dashedBorder"></div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- 底栏 -->
-      <div id="bottomBar">
-        <div id="filterOptionsWrapper">
-          <div id="filterOptions"></div>
+        <!-- 底栏 -->
+        <div id="bottomBar">
+            <div id="filterOptionsWrapper">
+                <div id="filterOptions"></div>
+            </div>
+            <div id="shutterArea">
+                <button id="galleryBtn" class="circle-btn"></button>
+                <button id="captureBtn"></button>
+                <button id="reservedBtn" class="circle-btn"></button>
+            </div>
         </div>
-        <div id="shutterArea">
-          <button id="galleryBtn" class="circle-btn"></button>
-          <button id="captureBtn"></button>
-          <button id="reservedBtn" class="circle-btn"></button>
-        </div>
-      </div>
     </div>
     <script src="script/main.js"></script>
-  </body>
+</body>
+
 </html>
