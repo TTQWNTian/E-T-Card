@@ -171,6 +171,88 @@ body {
     color: var(--text-muted) !important;
 }
 
+/* ===== 背景特效面板 ===== */
+#bgEffectPanel {
+    display: none;
+    position: fixed;
+    z-index: 150;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-sm);
+    min-width: 130px;
+}
+
+#bgEffectPanel.open {
+    display: block;
+}
+
+#bgEffectList {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#bgEffectList button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: var(--font-size-md);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+#bgEffectList button:hover {
+    background: var(--btn-hover);
+}
+
+#bgEffectList button.active {
+    background: var(--btn-active-bg);
+    color: var(--text-primary);
+}
+
+#bgEffectSliderWrap {
+    display: none;
+    padding: var(--spacing-sm) var(--spacing-xs) var(--spacing-xs);
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--spacing-xs);
+}
+
+#bgEffectSliderWrap.visible {
+    display: block;
+}
+
+#bgEffectSlider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+    outline: none;
+}
+
+#bgEffectSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    cursor: pointer;
+}
+
+#bgEffectSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    cursor: pointer;
+    border: none;
+}
+
 /* ===== 相册界面 ===== */
 #galleryPanel {
     display: none;
@@ -298,6 +380,21 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+#bgCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+#bgCanvas.visible {
+    display: block;
+}
+
+#video.hidden {
+    visibility: hidden;
 }
 
 /* ===== 透卡容器 ===== */

@@ -38,7 +38,7 @@
     modalOverlay.classList.remove("active");
   }
 
-  // ===== 日期格式化（用于文件名） =====
+  // ===== 日期格式化 =====
   function formatDate() {
     const d = new Date();
     const pad = (n) => String(n).padStart(2, "0");
@@ -154,8 +154,17 @@
     { label: "紫霞", color: { r: 150, g: 100, b: 220 }, alpha: 0.35 },
   ];
 
+  // ===== 背景特效数据 =====
+  const bgEffectPresets = [
+    { label: "无" },
+    { label: "马赛克", type: "mosaic", value: 16, min: 2, max: 60 },
+    { label: "黑白", type: "gray" },
+  ];
+
   // ===== DOM引用 =====
   const video = document.getElementById("video");
+  const bgCanvas = document.getElementById("bgCanvas");
+  const bgCtx = bgCanvas.getContext("2d");
   const cardCanvas = document.getElementById("cardCanvas");
   const ctx = cardCanvas.getContext("2d");
   const cardContainer = document.getElementById("cardContainer");
@@ -170,16 +179,24 @@
   const galleryGrid = document.getElementById("galleryGrid");
   const galleryCloseBtn = document.getElementById("galleryCloseBtn");
   const cardFileInput = document.getElementById("cardFileInput");
+  const reservedBtn = document.getElementById("reservedBtn");
+  const bgEffectPanel = document.getElementById("bgEffectPanel");
+  const bgEffectList = document.getElementById("bgEffectList");
+  const bgEffectSliderWrap = document.getElementById("bgEffectSliderWrap");
+  const bgEffectSlider = document.getElementById("bgEffectSlider");
 
   // ===== 状态 =====
   let stream = null;
   let cameraReady = false;
   let activeCardIndex = 0;
   let activeFilterIndex = 0;
+  let activeBgEffectIndex = 0;
+  let bgEffectValue = 12;
   let cardData = null;
   let cardW = 400,
     cardH = 400;
   let resizeObserver = null;
+  let previewBaseWidth = 360;
 
   // ===== IndexedDB =====
   const DB_NAME = "etcard";
@@ -482,6 +499,77 @@
     });
   }
 
+  // ===== 渲染背景特效按钮 =====
+  function renderBgEffectButtons() {
+    bgEffectList.innerHTML = "";
+    bgEffectPresets.forEach((f, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = f.label;
+      btn.className = index === activeBgEffectIndex ? "active" : "";
+      btn.addEventListener("click", () => {
+        activeBgEffectIndex = index;
+        bgEffectValue = f.value || 0;
+        renderBgEffectButtons();
+        updateSliderVisibility();
+      });
+      bgEffectList.appendChild(btn);
+    });
+  }
+
+  function updateSliderVisibility() {
+    const f = bgEffectPresets[activeBgEffectIndex];
+    if (f && f.min !== undefined && f.max !== undefined) {
+      bgEffectSliderWrap.classList.add("visible");
+      bgEffectSlider.min = f.min;
+      bgEffectSlider.max = f.max;
+      bgEffectSlider.value = bgEffectValue;
+    } else {
+      bgEffectSliderWrap.classList.remove("visible");
+    }
+  }
+
+  bgEffectSlider.addEventListener("input", () => {
+    bgEffectValue = parseInt(bgEffectSlider.value);
+  });
+
+  // ===== 背景特效面板开关 =====
+  function openBgPanel() {
+    const rect = reservedBtn.getBoundingClientRect();
+    const panelWidth = 130;
+    let left = rect.left + rect.width / 2 - panelWidth / 2;
+    if (left < 8) left = 8;
+    if (left + panelWidth > window.innerWidth - 8) {
+      left = window.innerWidth - panelWidth - 8;
+    }
+    bgEffectPanel.style.left = left + "px";
+    bgEffectPanel.style.bottom = window.innerHeight - rect.top + 8 + "px";
+    bgEffectPanel.style.top = "auto";
+    bgEffectPanel.classList.add("open");
+  }
+
+  function closeBgPanel() {
+    bgEffectPanel.classList.remove("open");
+  }
+
+  reservedBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (bgEffectPanel.classList.contains("open")) {
+      closeBgPanel();
+    } else {
+      openBgPanel();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      bgEffectPanel.classList.contains("open") &&
+      !bgEffectPanel.contains(e.target) &&
+      !reservedBtn.contains(e.target)
+    ) {
+      closeBgPanel();
+    }
+  });
+
   // ===== 更新透卡尺寸 =====
   function updateCardSize(w, h) {
     const rect = videoContainer.getBoundingClientRect();
@@ -592,6 +680,99 @@
     return layer;
   }
 
+  // ===== 应用背景特效 =====
+  function applyBgEffectToCtx(cx, w, h, baseWidth) {
+    const f = bgEffectPresets[activeBgEffectIndex];
+    if (!f || f.label === "无") return;
+
+    const ratio = w / (baseWidth || 360);
+
+    if (f.type === "gray") {
+      const imageData = cx.getImageData(0, 0, w, h);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const g = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+        data[i] = data[i + 1] = data[i + 2] = g;
+      }
+      cx.putImageData(imageData, 0, 0);
+    } else if (f.type === "mosaic") {
+      const block = Math.max(2, Math.round(bgEffectValue * ratio));
+      const imageData = cx.getImageData(0, 0, w, h);
+      const data = imageData.data;
+      for (let y = 0; y < h; y += block) {
+        for (let x = 0; x < w; x += block) {
+          const idx = (y * w + x) * 4;
+          const r = data[idx],
+            g = data[idx + 1],
+            b = data[idx + 2];
+          for (let dy = 0; dy < block && y + dy < h; dy++) {
+            for (let dx = 0; dx < block && x + dx < w; dx++) {
+              const p = ((y + dy) * w + (x + dx)) * 4;
+              data[p] = r;
+              data[p + 1] = g;
+              data[p + 2] = b;
+            }
+          }
+        }
+      }
+      cx.putImageData(imageData, 0, 0);
+    }
+  }
+
+  // ===== 视频 cover 绘制 =====
+  function drawVideoCover(ctx, video, w, h) {
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh) return;
+    const scale = Math.max(w / vw, h / vh);
+    const dw = vw * scale;
+    const dh = vh * scale;
+    const dx = (w - dw) / 2;
+    const dy = (h - dh) / 2;
+    ctx.drawImage(video, dx, dy, dw, dh);
+  }
+
+  // ===== 预览背景实时渲染 =====
+  let bgRendering = false;
+
+  function renderBgFrame() {
+    const f = bgEffectPresets[activeBgEffectIndex];
+    if (!f || f.label === "无") {
+      bgCanvas.classList.remove("visible");
+      video.classList.remove("hidden");
+      return;
+    }
+
+    bgCanvas.classList.add("visible");
+    video.classList.add("hidden");
+
+    const rect = videoContainer.getBoundingClientRect();
+    const w = Math.max(1, Math.round(rect.width));
+    const h = Math.max(1, Math.round(rect.height));
+
+    if (bgCanvas.width !== w || bgCanvas.height !== h) {
+      bgCanvas.width = w;
+      bgCanvas.height = h;
+      bgCanvas.style.width = w + "px";
+      bgCanvas.style.height = h + "px";
+    }
+
+    previewBaseWidth = w;
+
+    drawVideoCover(bgCtx, video, w, h);
+    applyBgEffectToCtx(bgCtx, w, h, previewBaseWidth);
+  }
+
+  function startBgRenderLoop() {
+    if (bgRendering) return;
+    bgRendering = true;
+    const loop = () => {
+      if (cameraReady) renderBgFrame();
+      requestAnimationFrame(loop);
+    };
+    loop();
+  }
+
   // ===== ResizeObserver =====
   function setupResizeObserver() {
     if (resizeObserver) resizeObserver.disconnect();
@@ -626,6 +807,7 @@
 
       setupResizeObserver();
       switchCard(0);
+      startBgRenderLoop();
     } catch (err) {
       statusHint.textContent = "无法访问摄像头";
       captureBtn.disabled = true;
@@ -647,14 +829,40 @@
     c.height = h;
     const cx = c.getContext("2d");
 
-    const vr = video.getBoundingClientRect();
-    const cr = cardContainer.getBoundingClientRect();
-    const sx = ((cr.left - vr.left) / vr.width) * video.videoWidth;
-    const sy = ((cr.top - vr.top) / vr.height) * video.videoHeight;
-    const sw = (cr.width / vr.width) * video.videoWidth;
-    const sh = (cr.height / vr.height) * video.videoHeight;
+    // 以 videoContainer 为基准，映射到视频原始坐标
+    const vr = videoContainer.getBoundingClientRect();
+    const cr = cardCanvas.getBoundingClientRect();
+
+    const relLeft = (cr.left - vr.left) / vr.width;
+    const relTop = (cr.top - vr.top) / vr.height;
+    const relW = cr.width / vr.width;
+    const relH = cr.height / vr.height;
+
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    const containerRatio = vr.width / vr.height;
+    const videoRatio = vw / vh;
+
+    let drawX, drawY, drawW, drawH;
+    if (videoRatio > containerRatio) {
+      drawH = vh;
+      drawW = vh * containerRatio;
+      drawX = (vw - drawW) / 2;
+      drawY = 0;
+    } else {
+      drawW = vw;
+      drawH = vw / containerRatio;
+      drawX = 0;
+      drawY = (vh - drawH) / 2;
+    }
+
+    const sx = drawX + relLeft * drawW;
+    const sy = drawY + relTop * drawH;
+    const sw = relW * drawW;
+    const sh = relH * drawH;
 
     cx.drawImage(video, sx, sy, sw, sh, 0, 0, w, h);
+    applyBgEffectToCtx(cx, w, h, previewBaseWidth);
 
     if (cardData) {
       const img = new Image();
@@ -699,6 +907,8 @@
 
   // ===== 启动 =====
   renderFilterButtons();
+  renderBgEffectButtons();
+  updateSliderVisibility();
   updateGalleryBtn();
   openDB()
     .then(loadLocalCards)

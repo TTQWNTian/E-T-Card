@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -30,6 +30,14 @@
             <span id="fullscreenStatus" class="status-off">未开启</span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- 背景特效面板 -->
+    <div id="bgEffectPanel">
+      <div id="bgEffectList"></div>
+      <div id="bgEffectSliderWrap">
+        <input type="range" id="bgEffectSlider" min="0" max="100" value="50" />
       </div>
     </div>
 
@@ -97,6 +105,7 @@
             playsinline
             muted
           ></video>
+          <canvas id="bgCanvas"></canvas>
           <div id="cardContainer">
             <canvas id="cardCanvas"></canvas>
             <div id="dashedBorder"></div>
