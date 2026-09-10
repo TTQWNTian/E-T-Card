@@ -699,15 +699,33 @@
       const block = Math.max(2, Math.round(bgEffectValue * ratio));
       const imageData = cx.getImageData(0, 0, w, h);
       const data = imageData.data;
-      for (let y = 0; y < h; y += block) {
-        for (let x = 0; x < w; x += block) {
-          const idx = (y * w + x) * 4;
+
+      const cx0 = w / 2;
+      const cy0 = h / 2;
+      const cols = Math.ceil(w / block / 2) + 1;
+      const rows = Math.ceil(h / block / 2) + 1;
+
+      for (let gy = -rows; gy <= rows; gy++) {
+        for (let gx = -cols; gx <= cols; gx++) {
+          const x = Math.round(cx0 + gx * block - block / 2);
+          const y = Math.round(cy0 + gy * block - block / 2);
+
+          const sx = Math.min(w - 1, Math.max(0, Math.round(cx0 + gx * block)));
+          const sy = Math.min(h - 1, Math.max(0, Math.round(cy0 + gy * block)));
+
+          const idx = (sy * w + sx) * 4;
           const r = data[idx],
             g = data[idx + 1],
             b = data[idx + 2];
-          for (let dy = 0; dy < block && y + dy < h; dy++) {
-            for (let dx = 0; dx < block && x + dx < w; dx++) {
-              const p = ((y + dy) * w + (x + dx)) * 4;
+
+          const x0 = Math.max(0, x);
+          const y0 = Math.max(0, y);
+          const x1 = Math.min(w, x + block);
+          const y1 = Math.min(h, y + block);
+
+          for (let py = y0; py < y1; py++) {
+            for (let px = x0; px < x1; px++) {
+              const p = (py * w + px) * 4;
               data[p] = r;
               data[p + 1] = g;
               data[p + 2] = b;
