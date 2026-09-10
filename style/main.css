@@ -264,7 +264,6 @@ body {
     background: var(--bg-primary);
     z-index: 200;
     flex-direction: column;
-    min-height: 0;
 }
 
 #galleryPanel.open {
@@ -305,29 +304,25 @@ body {
 
 #galleryGrid {
     flex: 1;
-    min-height: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: min-content;
     gap: var(--spacing-sm);
     padding: var(--spacing-md);
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     align-content: start;
-    box-sizing: border-box;
 }
 
 .gallery-item {
     position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
+    aspect-ratio: 1;
     background: var(--bg-card);
     overflow: hidden;
     cursor: pointer;
     border: 2px dashed transparent;
     border-radius: var(--radius-sm);
-    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .gallery-item.active {
@@ -335,9 +330,6 @@ body {
 }
 
 .gallery-item img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -353,25 +345,11 @@ body {
     color: var(--text-secondary);
     font-size: var(--font-size-sm);
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .gallery-item .gallery-empty {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: var(--text-muted);
     font-size: var(--font-size-md);
-}
-
-.gallery-add svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* ===== 预览区域 ===== */
