@@ -133,6 +133,26 @@ body {
     gap: var(--spacing-sm);
 }
 
+#morePanelFooter {
+    padding-top: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+#morePanelFooter a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+#morePanelFooter a:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
 .more-item {
     display: flex;
     flex-direction: column;
