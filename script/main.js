@@ -148,6 +148,12 @@
             dataUrl: "assets/cards/晋江の稲妻.png",
             width: 1080,
             height: 1440,
+        },
+        {
+            label: "戒指",
+            dataUrl: "assets/cards/戒指.png",
+            width: 1080,
+            height: 1080,
         }
     ];
 
