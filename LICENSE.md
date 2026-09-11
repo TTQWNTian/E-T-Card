@@ -14,45 +14,61 @@ The licensor grants you a copyright license for the
 software to do everything you might do with the software
 that would otherwise infringe the licensor's copyright
 in it for any permitted purpose.  However, you may
-not make the software or its modifications available
-to others in a way that makes the software or its
-modifications available to others as a service, or
-distribute the software or its modifications with
-commercial intent, including but not limited to selling,
-licensing, or sublicensing the software or its
-modifications for commercial purposes.
+only distribute the software according to [Distribution
+License](#distribution-license) and make changes or new works
+based on the software according to [Changes and New Works
+License](#changes-and-new-works-license).
 
-## Patent License
+## Distribution License
 
-The licensor grants you a patent license for the
-software that covers patent claims the licensor can
-license, or becomes able to license, that you would
-infringe by making the software.  The patent license
-shall not apply to combinations of the software with
-other software or hardware.  The patent license is
-also conditioned upon you not engaging in any
-litigation or other legal proceeding that asserts
-that making the software infringes any patent claim.
+The licensor grants you an additional copyright license
+to distribute copies of the software.  Your license
+to distribute covers distributing the software with
+changes and new works permitted by [Changes and New Works
+License](#changes-and-new-works-license).
 
 ## Notices
 
 You must ensure that anyone who gets a copy of any part of
-the software from you, with or without changes, also gets
-the text of this license or a link to
-<https://polyformproject.org/licenses/noncommercial/1.0.0>.
+the software from you also gets a copy of these terms or the
+URL for them above, as well as copies of any plain-text lines
+beginning with `Required Notice:` that the licensor provided
+with the software.  For example:
 
-## Patent and Other Rights
+> Required Notice: Copyright TTQWNTian (https://ttqwntian.top)
 
-Any patent license is conditioned on you not communicating
-to others any request that would further restrict the
-software users' use of the software.  Any patent license
-is also conditioned on you not imposing any additional
-requirements on the software users' exercise of the
-software license that are not in this license.  This
-license does not limit your rights under applicable
-copyright law or give you rights to use the software for
-any purpose this license does not forbid.  This license
-does not give you rights to use the licensor's trademarks.
+## Changes and New Works License
+
+The licensor grants you an additional copyright license to
+make changes and new works based on the software for any
+permitted purpose.
+
+## Patent License
+
+The licensor grants you a patent license for the software that
+covers patent claims the licensor can license, or becomes able
+to license, that you would infringe by using the software.
+
+## Noncommercial Purposes
+
+Any noncommercial purpose is a permitted purpose.
+
+## Personal Uses
+
+Personal use for research, experiment, and testing for
+the benefit of public knowledge, personal study, private
+entertainment, hobby projects, amateur pursuits, or religious
+observance, without any anticipated commercial application,
+is use for a permitted purpose.
+
+## Noncommercial Organizations
+
+Use by any charitable organization, educational institution,
+public research organization, public safety or health
+organization, environmental protection organization,
+or government institution is use for a permitted purpose
+regardless of the source of funding or obligations resulting
+from the funding.
 
 ## Fair Use
 
@@ -61,37 +77,55 @@ law. These terms do not limit them.
 
 ## No Other Rights
 
-This license does not grant you rights to any intellectual
-property of the licensor except the rights of copyright
-and patent the licensor can license, as described in this
-license.  This license does not give you permission to
-falsely represent the software as your own work.
+These terms do not allow you to sublicense or transfer any of
+your licenses to anyone else, or prevent the licensor from
+granting licenses to anyone else.  These terms do not imply
+any other licenses.
 
-## Termination
+## Patent Defense
 
-If you violate any term of this license, all your rights
-under this license end immediately.  Those to whom you
-have given a copy of the software have the rights to the
-software they received from you as long as they do not
-violate the terms of this license, even after your rights
-under this license end.
+If you make any written claim that the software infringes or
+contributes to infringement of any patent, your patent license
+for the software granted under these terms ends immediately. If
+your company makes such a claim, your patent license ends
+immediately for work on behalf of your company.
 
-## Government Users
+## Violations
 
-If you are a government user, this license instead gives
-you the rights described in this license, and the
-licensor waives any objections that would make this
-license invalid or unenforceable against you, to the
-extent allowed by law.
+The first time you are notified in writing that you have
+violated any of these terms, or done anything with the software
+not covered by your licenses, your licenses can nonetheless
+continue if you come into full compliance with these terms,
+and take practical steps to correct past violations, within
+32 days of receiving notice.  Otherwise, all your licenses
+end immediately.
 
 ## No Liability
 
-***As far as the law allows, the software comes as is,
-without any warranty or condition, and the licensor will
-not be liable to you for any damages arising out of these
-terms or the use or nature of the software, under any
-kind of legal claim.***
+***As far as the law allows, the software comes as is, without
+any warranty or condition, and the licensor will not be liable
+to you for any damages arising out of these terms or the use
+or nature of the software, under any kind of legal claim.***
 
----
+## Definitions
 
-Required Notice: Copyright (c) 2026-present TTQWNTian (https://ttqwntian.top)
+The **licensor** is the individual or entity offering these
+terms, and the **software** is the software the licensor makes
+available under these terms.
+
+**You** refers to the individual or entity agreeing to these
+terms.
+
+**Your company** is any legal entity, sole proprietorship,
+or other kind of organization that you work for, plus all
+organizations that have control over, are under the control of,
+or are under common control with that organization.  **Control**
+means ownership of substantially all the assets of an entity,
+or the power to direct its management and policies by vote,
+contract, or otherwise.  Control can be direct or indirect.
+
+**Your licenses** are all the licenses granted to you for the
+software under these terms.
+
+**Use** means anything you do with the software requiring one
+of your licenses.
