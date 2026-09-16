@@ -662,16 +662,31 @@
     // ===== 背景特效面板开关 =====
     function openBgPanel() {
         const rect = reservedBtn.getBoundingClientRect();
+        const gap = 8;
         const panelWidth = 130;
-        let left = rect.left + rect.width / 2 - panelWidth / 2;
-        if (left < 8) left = 8;
-        if (left + panelWidth > window.innerWidth - 8) {
-            left = window.innerWidth - panelWidth - 8;
-        }
-        bgEffectPanel.style.left = left + "px";
-        bgEffectPanel.style.bottom = window.innerHeight - rect.top + 8 + "px";
-        bgEffectPanel.style.top = "auto";
+
         bgEffectPanel.classList.add("open");
+        bgEffectPanel.style.visibility = "hidden";
+        bgEffectPanel.style.left = "0px";
+        bgEffectPanel.style.top = "0px";
+        bgEffectPanel.style.bottom = "auto";
+
+        const panelH = bgEffectPanel.offsetHeight;
+        const panelW = bgEffectPanel.offsetWidth || panelWidth;
+
+        let left = rect.left + rect.width / 2 - panelW / 2;
+        left = Math.max(gap, Math.min(left, window.innerWidth - panelW - gap));
+
+        let top = rect.top - panelH - gap;
+        if (top < gap) top = rect.bottom + gap;
+        if (top + panelH > window.innerHeight - gap) {
+            top = window.innerHeight - panelH - gap;
+        }
+
+        bgEffectPanel.style.left = left + "px";
+        bgEffectPanel.style.top = top + "px";
+        bgEffectPanel.style.bottom = "auto";
+        bgEffectPanel.style.visibility = "";
     }
 
     function closeBgPanel() {

@@ -1,37 +1,77 @@
+/* ===== Material Design 3 Design Tokens (Dark Theme) ===== */
 :root {
-    --bg-primary: #000000;
-    --bg-secondary: #0a0a0a;
-    --bg-card: #1a1a1a;
-    --bg-modal: #1a1a1a;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.85);
-    --text-muted: rgba(255, 255, 255, 0.5);
-    --border-color: rgba(255, 255, 255, 0.15);
-    --border-active: #ffffff;
-    --btn-bg: rgba(255, 255, 255, 0.08);
-    --btn-hover: rgba(255, 255, 255, 0.15);
-    --btn-active-bg: rgba(255, 255, 255, 0.2);
-    --dashed-color: rgba(255, 255, 255, 0.4);
-    --modal-overlay: rgba(0, 0, 0, 0.85);
-    --btn-primary-bg: #ffffff;
-    --btn-primary-hover: #e8e8e8;
-    --btn-primary-text: #000000;
-    --btn-secondary-bg: rgba(255, 255, 255, 0.15);
-    --btn-secondary-hover: rgba(255, 255, 255, 0.25);
-    --btn-secondary-text: #ffffff;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
+    /* Color System (M3 Dark Baseline Palette) */
+    --md-sys-color-background: #141218;
+    --md-sys-color-surface: #141218;
+    --md-sys-color-surface-dim: #141218;
+    --md-sys-color-surface-container-lowest: #0f0d13;
+    --md-sys-color-surface-container-low: #1d1b20;
+    --md-sys-color-surface-container: #211f26;
+    --md-sys-color-surface-container-high: #2b2930;
+    --md-sys-color-surface-container-highest: #36343b;
+
+    --md-sys-color-on-surface: #e6e0e9;
+    --md-sys-color-on-surface-variant: #cac4d0;
+    --md-sys-color-outline: #938f99;
+    --md-sys-color-outline-variant: #49454f;
+
+    --md-sys-color-primary: #d0bcff;
+    --md-sys-color-on-primary: #381e72;
+    --md-sys-color-primary-container: #4f378b;
+    --md-sys-color-on-primary-container: #eaddff;
+
+    --md-sys-color-secondary-container: #4a4458;
+    --md-sys-color-on-secondary-container: #e8def8;
+
+    /* State Layers */
+    --md-sys-state-hover: rgba(230, 224, 233, 0.08);
+    --md-sys-state-pressed: rgba(230, 224, 233, 0.12);
+    --md-sys-state-focus: rgba(230, 224, 233, 0.12);
+
+    /* M3 Shape System */
+    --md-sys-shape-corner-none: 0px;
+    --md-sys-shape-corner-extra-small: 4px;
+    --md-sys-shape-corner-small: 8px;
+    --md-sys-shape-corner-medium: 12px;
+    --md-sys-shape-corner-large: 16px;
+    --md-sys-shape-corner-extra-large: 28px;
+    --md-sys-shape-corner-full: 9999px;
+
+    /* Legacy Map Variables */
+    --bg-primary: var(--md-sys-color-background);
+    --bg-secondary: var(--md-sys-color-surface-container);
+    --bg-card: var(--md-sys-color-surface-container-high);
+    --bg-modal: var(--md-sys-color-surface-container-high);
+    --text-primary: var(--md-sys-color-on-surface);
+    --text-secondary: var(--md-sys-color-on-surface-variant);
+    --text-muted: var(--md-sys-color-outline);
+    --border-color: var(--md-sys-color-outline-variant);
+    --border-active: var(--md-sys-color-primary);
+    --btn-bg: var(--md-sys-color-surface-container-highest);
+    --btn-hover: var(--md-sys-state-hover);
+    --btn-active-bg: var(--md-sys-color-primary-container);
+    --dashed-color: var(--md-sys-color-outline);
+    --modal-overlay: rgba(0, 0, 0, 0.6);
+    --btn-primary-bg: var(--md-sys-color-primary);
+    --btn-primary-hover: #e8def8;
+    --btn-primary-text: var(--md-sys-color-on-primary);
+    --btn-secondary-bg: var(--md-sys-color-surface-container-highest);
+    --btn-secondary-hover: var(--md-sys-state-hover);
+    --btn-secondary-text: var(--md-sys-color-on-surface);
+    --radius-sm: var(--md-sys-shape-corner-small);
+    --radius-md: var(--md-sys-shape-corner-medium);
+    --radius-lg: var(--md-sys-shape-corner-large);
+    --radius-xl: var(--md-sys-shape-corner-extra-large);
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 12px;
-    --spacing-lg: 20px;
-    --spacing-xl: 30px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --font-size-xs: 11px;
     --font-size-sm: 12px;
-    --font-size-md: 13px;
-    --font-size-lg: 14px;
-    --font-size-xl: 15px;
+    --font-size-md: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 22px;
     --border-width: 2px;
 }
 
@@ -45,29 +85,30 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-surface);
     height: 100dvh;
     overflow: hidden;
     user-select: none;
 }
 
-/* ===== 主容器 ===== */
+/* ===== M3 主布局组件 ===== */
 #app {
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    background: var(--bg-primary);
+    background: var(--md-sys-color-background);
 }
 
-/* ===== 顶部栏 ===== */
+/* ===== M3 Top App Bar ===== */
 #topBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-lg);
-    background: var(--bg-secondary);
+    height: 64px;
+    padding: 0 var(--spacing-lg);
+    background: var(--md-sys-color-surface-container);
     flex-shrink: 0;
     z-index: 10;
 }
@@ -80,30 +121,42 @@ body {
 
 #statusHint {
     font-size: var(--font-size-lg);
-    color: var(--text-secondary);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
 }
 
 #cardInfo {
     font-size: var(--font-size-sm);
-    color: var(--text-muted);
+    color: var(--md-sys-color-on-surface-variant);
+    background: var(--md-sys-color-surface-container-highest);
+    padding: 4px 12px;
+    border-radius: var(--md-sys-shape-corner-full);
 }
 
 #moreBtn {
-    background: none;
+    background: transparent;
     border: none;
-    color: var(--text-secondary);
+    color: var(--md-sys-color-on-surface-variant);
     cursor: pointer;
-    padding: 0 0 0 var(--spacing-md);
-    line-height: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--md-sys-shape-corner-full);
     display: flex;
     align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
 #moreBtn:hover {
-    color: var(--text-primary);
+    background: var(--md-sys-state-hover);
+    color: var(--md-sys-color-on-surface);
 }
 
-/* ===== 更多面板 ===== */
+#moreBtn:active {
+    background: var(--md-sys-state-pressed);
+}
+
+/* ===== M3 Navigation / Bottom Sheet Panel ===== */
 #morePanel {
     position: fixed;
     top: 0;
@@ -111,10 +164,11 @@ body {
     right: 0;
     z-index: 100;
     transform: translateY(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: var(--bg-secondary);
-    border-bottom-left-radius: var(--radius-xl);
-    border-bottom-right-radius: var(--radius-xl);
+    transition: transform 0.3s cubic-bezier(0.05, 0.7, 0.1, 1);
+    background: var(--md-sys-color-surface-container-high);
+    border-bottom-left-radius: var(--md-sys-shape-corner-extra-large);
+    border-bottom-right-radius: var(--md-sys-shape-corner-extra-large);
+    box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
 }
 
 #morePanel.open {
@@ -122,35 +176,29 @@ body {
 }
 
 #morePanelContent {
-    padding: var(--spacing-lg);
-    max-height: 50dvh;
+    padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-lg);
+    max-height: 60dvh;
     overflow-y: auto;
 }
 
 #morePanelBody {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
 }
 
 #morePanelFooter {
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
     margin-top: var(--spacing-lg);
-    border-top: 1.5px solid var(--border-color);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
     text-align: center;
-    color: var(--text-muted);
+    color: var(--md-sys-color-outline);
     font-size: var(--font-size-sm);
 }
 
 #morePanelFooter a {
-    color: var(--text-secondary);
+    color: var(--md-sys-color-primary);
     text-decoration: none;
-    transition: 0.15s;
-}
-
-#morePanelFooter a:hover {
-    color: var(--text-primary);
-    text-decoration: underline;
 }
 
 .more-item {
@@ -159,47 +207,51 @@ body {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-md);
-    background: var(--bg-card);
-    border-radius: var(--radius-xl);
+    background: var(--md-sys-color-surface-container-highest);
+    border-radius: var(--md-sys-shape-corner-large);
     cursor: pointer;
-    min-height: 64px;
+    min-height: 72px;
     gap: var(--spacing-xs);
-    border: 2px solid transparent;
-    transition: all 0.2s;
+    border: none;
+    transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .more-item:hover {
-    background: var(--btn-hover);
-    border-color: var(--border-color);
+    background: var(--md-sys-color-surface-container);
 }
 
 .more-item span:first-child {
-    color: var(--text-secondary);
-    font-size: var(--font-size-sm);
+    color: var(--md-sys-color-on-surface);
+    font-size: var(--font-size-md);
+    font-weight: 500;
 }
 
 .more-item span:last-child {
-    color: var(--text-muted);
+    color: var(--md-sys-color-outline);
     font-size: var(--font-size-xs);
 }
 
 .status-on {
-    color: var(--text-secondary) !important;
+    color: var(--md-sys-color-primary) !important;
+    font-weight: 600;
 }
 
 .status-off {
-    color: var(--text-muted) !important;
+    color: var(--md-sys-color-outline) !important;
 }
 
-/* ===== 背景特效面板 ===== */
+/* ===== M3 Menu Popup ===== */
 #bgEffectPanel {
     display: none;
     position: fixed;
     z-index: 150;
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-sm);
-    min-width: 130px;
+    background: var(--md-sys-color-surface-container-high);
+    border-radius: var(--md-sys-shape-corner-large);
+    padding: var(--spacing-xs);
+    min-width: 160px;
+    box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.3);
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
 }
 
 #bgEffectPanel.open {
@@ -213,30 +265,32 @@ body {
 }
 
 #bgEffectList button {
-    padding: 8px 16px;
+    padding: 10px 16px;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--md-sys-shape-corner-medium);
     background: transparent;
-    color: var(--text-secondary);
+    color: var(--md-sys-color-on-surface-variant);
     font-size: var(--font-size-md);
     text-align: left;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background-color 0.2s;
 }
 
 #bgEffectList button:hover {
-    background: var(--btn-hover);
+    background: var(--md-sys-state-hover);
+    color: var(--md-sys-color-on-surface);
 }
 
 #bgEffectList button.active {
-    background: var(--btn-active-bg);
-    color: var(--text-primary);
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    font-weight: 600;
 }
 
 #bgEffectSliderWrap {
     display: none;
-    padding: var(--spacing-sm) var(--spacing-xs) var(--spacing-xs);
-    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-sm);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
     margin-top: var(--spacing-xs);
 }
 
@@ -250,52 +304,51 @@ body {
     appearance: none;
     height: 4px;
     border-radius: 2px;
-    background: var(--border-color);
+    background: var(--md-sys-color-secondary-container);
     outline: none;
 }
 
 #bgEffectSlider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: var(--text-primary);
+    background: var(--md-sys-color-primary);
     cursor: pointer;
 }
 
-#bgEffectSlider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--text-primary);
-    cursor: pointer;
-    border: none;
-}
-
-/* ===== 相册界面 ===== */
+/* ===== M3 Gallery Layer ===== */
 #galleryPanel {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--bg-primary);
+    background: var(--md-sys-color-background);
     z-index: 200;
+    display: flex;
     flex-direction: column;
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.05, 0.7, 0.1, 1),
+                visibility 0s linear 0.3s;
 }
 
 #galleryPanel.open {
-    display: flex;
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 0.3s cubic-bezier(0.05, 0.7, 0.1, 1),
+                visibility 0s;
 }
 
 #galleryHeader {
     position: relative;
     display: flex;
     align-items: center;
-    padding: var(--spacing-lg);
-    background: var(--bg-secondary);
+    height: 64px;
+    padding: 0 var(--spacing-lg);
+    background: var(--md-sys-color-surface-container);
     flex-shrink: 0;
 }
 
@@ -304,22 +357,21 @@ body {
     left: 50%;
     transform: translateX(-50%);
     font-size: var(--font-size-lg);
-    color: var(--text-secondary);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
 }
 
 #galleryCloseBtn {
-    background: none;
+    background: transparent;
     border: none;
-    color: var(--text-secondary);
+    color: var(--md-sys-color-on-surface-variant);
     cursor: pointer;
-    padding: 0;
-    line-height: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--md-sys-shape-corner-full);
     display: flex;
     align-items: center;
-}
-
-#galleryCloseBtn:hover {
-    color: var(--text-primary);
+    justify-content: center;
 }
 
 #galleryGrid {
@@ -335,18 +387,19 @@ body {
 .gallery-item {
     position: relative;
     aspect-ratio: 1;
-    background: var(--bg-card);
+    background: var(--md-sys-color-surface-container-high);
     overflow: hidden;
     cursor: pointer;
-    border: 2px dashed transparent;
-    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    border-radius: var(--md-sys-shape-corner-medium);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: border-color 0.2s;
 }
 
 .gallery-item.active {
-    border-color: var(--border-active);
+    border-color: var(--md-sys-color-primary);
 }
 
 .gallery-item img {
@@ -360,23 +413,23 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background: var(--modal-overlay);
-    color: var(--text-secondary);
-    font-size: var(--font-size-sm);
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--md-sys-color-on-surface);
+    font-size: var(--font-size-xs);
     text-align: center;
 }
 
-.gallery-item .gallery-empty {
-    color: var(--text-muted);
-    font-size: var(--font-size-md);
+.gallery-add {
+    background: var(--md-sys-color-surface-container);
+    border: 2px dashed var(--md-sys-color-outline);
 }
 
-/* ===== 预览区域 ===== */
+/* ===== Preview Viewport ===== */
 #previewArea {
     flex: 1;
     position: relative;
-    background: var(--bg-primary);
+    background: #000000;
     overflow: hidden;
     min-height: 0;
     display: flex;
@@ -417,7 +470,6 @@ body {
     visibility: hidden;
 }
 
-/* ===== 透卡容器 ===== */
 #cardContainer {
     position: relative;
     display: flex;
@@ -430,37 +482,36 @@ body {
     display: block;
 }
 
-/* ===== 虚线边框 ===== */
 #dashedBorder {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: var(--border-width) dashed var(--dashed-color);
-    border-radius: var(--radius-sm);
+    border: 2px dashed var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-corner-small);
     pointer-events: none;
     z-index: 3;
 }
 
-/* ===== 底部栏 ===== */
+/* ===== M3 Bottom Controls Bar ===== */
 #bottomBar {
     flex-shrink: 0;
     padding: var(--spacing-md) 0 var(--spacing-xl);
-    background: var(--bg-secondary);
+    background: var(--md-sys-color-surface-container);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-lg);
 }
 
-/* ===== 滤镜选择 ===== */
+/* M3 Filter Chips */
 #filterOptionsWrapper {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    padding: 0 16px;
+    padding: 0 var(--spacing-lg);
     scrollbar-width: none;
 }
 
@@ -472,65 +523,76 @@ body {
     display: flex;
     gap: var(--spacing-sm);
     white-space: nowrap;
-    padding: var(--border-width) 0;
 }
 
 #filterOptions button {
-    padding: 5px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    background: var(--bg-card);
-    color: var(--text-muted);
+    height: 32px;
+    padding: 0 16px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-corner-small);
+    background: transparent;
+    color: var(--md-sys-color-on-surface-variant);
     font-size: var(--font-size-md);
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
 }
 
 #filterOptions button:hover {
-    background: var(--btn-hover);
+    background: var(--md-sys-state-hover);
 }
 
 #filterOptions button.active {
-    border-color: var(--border-active);
-    background: var(--btn-active-bg);
-    color: var(--text-primary);
+    border-color: transparent;
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    font-weight: 600;
 }
 
-/* ===== 快门区 ===== */
+/* M3 Shutter Area & FAB Style Buttons */
 #shutterArea {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 40px;
-    padding-top: var(--spacing-md);
+    width: 100%;
 }
 
 .circle-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--md-sys-shape-corner-full);
     border: none;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
     cursor: pointer;
-    transition: all 0.15s;
+    transition: transform 0.15s, background-color 0.2s;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .circle-btn:active {
     transform: scale(0.92);
+    background: var(--md-sys-state-pressed);
 }
 
+/* M3 Camera Shutter Button */
 #captureBtn {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.15);
+    width: 80px;
+    height: 80px;
+    border-radius: var(--md-sys-shape-corner-full);
+    border: 4px solid var(--md-sys-color-primary);
+    background: transparent;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s ease;
     position: relative;
     flex-shrink: 0;
+    padding: 0;
 }
 
 #captureBtn::after {
@@ -539,24 +601,21 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: #ffffff;
-    transition: all 0.15s;
+    width: 62px;
+    height: 62px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-primary);
+    transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
 #captureBtn:active::after {
     transform: translate(-50%, -50%) scale(0.85);
+    background: var(--md-sys-color-on-primary-container);
 }
 
 #captureBtn:disabled {
-    opacity: 0.4;
+    opacity: 0.38;
     cursor: not-allowed;
-}
-
-#captureBtn:disabled::after {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 #galleryBtn {
@@ -564,10 +623,9 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
-    position: relative;
 }
 
-/* ===== 弹窗 ===== */
+/* ===== M3 Dialog Surface ===== */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -587,65 +645,60 @@ body {
 }
 
 .modal-content {
-    background: var(--bg-modal);
-    border-radius: var(--radius-lg);
-    padding: 32px 28px;
-    max-width: 400px;
+    background: var(--md-sys-color-surface-container-high);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    padding: 24px;
+    max-width: 360px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content h2 {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
+    font-size: var(--font-size-xl);
+    font-weight: 400;
+    color: var(--md-sys-color-on-surface);
 }
 
 .modal-content p {
-    font-size: 15px;
-    color: var(--text-secondary);
+    font-size: var(--font-size-md);
+    color: var(--md-sys-color-on-surface-variant);
     line-height: 1.5;
     text-align: center;
-    margin: 0;
 }
 
 .modal-content img {
     max-width: 100%;
-    max-height: 55dvh;
-    display: block;
-    border-radius: var(--radius-sm);
+    max-height: 45dvh;
+    border-radius: var(--md-sys-shape-corner-large);
     object-fit: contain;
 }
 
 .modal-buttons {
     display: flex;
-    justify-content: center;
-    gap: 12px;
+    justify-content: flex-end;
+    gap: 8px;
     width: 100%;
+    margin-top: 8px;
 }
 
 .modal-buttons button {
-    padding: 10px 32px;
+    height: 40px;
+    padding: 0 20px;
     border: none;
-    border-radius: var(--radius-xl);
-    font-size: var(--font-size-xl);
+    border-radius: var(--md-sys-shape-corner-full);
+    font-size: var(--font-size-md);
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.15s;
-    flex: 1;
-}
-
-.modal-buttons button:active {
-    transform: scale(0.95);
+    transition: background-color 0.2s;
 }
 
 .modal-buttons .btn-primary {
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
 }
 
 .modal-buttons .btn-primary:hover {
@@ -653,15 +706,10 @@ body {
 }
 
 .modal-buttons .btn-secondary {
-    background: var(--btn-secondary-bg);
-    color: var(--btn-secondary-text);
+    background: transparent;
+    color: var(--md-sys-color-primary);
 }
 
 .modal-buttons .btn-secondary:hover {
-    background: var(--btn-secondary-hover);
-}
-
-.modal-buttons .btn-full {
-    flex: none;
-    width: 100%;
+    background: var(--md-sys-state-hover);
 }
