@@ -1,4 +1,7 @@
 (function() {
+    // ===== 初始化音效与震动模块 =====
+    if (window.ETCardFX) window.ETCardFX.init();
+
     // ===== 禁止长按菜单和右键菜单 =====
     document.addEventListener("contextmenu", (e) => e.preventDefault());
     document.addEventListener("selectstart", (e) => e.preventDefault());
@@ -73,7 +76,7 @@
                 className: "btn-primary",
                 action: () => {
                     const link = document.createElement("a");
-                    link.download = "电子透卡_" + formatDate() + ".png";
+                    link.download = "E-T-Card_" + formatDate() + ".png";
                     link.href = imageDataUrl;
                     link.click();
                     statusHint.textContent = "已保存";
@@ -995,6 +998,9 @@
             statusHint.textContent = "相机未就绪";
             return;
         }
+
+        // 播放快门音效
+        if (window.ETCardFX) window.ETCardFX.playShutterSound();
 
         const w = cardCanvas.width,
             h = cardCanvas.height;
