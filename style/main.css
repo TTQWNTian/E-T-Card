@@ -713,3 +713,54 @@ body {
 .modal-buttons .btn-secondary:hover {
     background: var(--md-sys-state-hover);
 }
+
+/* ===== 更新日志 ===== */
+#changelogList {
+    width: 100%;
+    max-height: 45dvh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+}
+
+.changelog-entry {
+    padding: 10px 14px;
+    background: var(--md-sys-color-surface-container-highest);
+    border-radius: var(--md-sys-shape-corner-extra-small);
+}
+
+.changelog-entry:first-child {
+    border-top-left-radius: var(--md-sys-shape-corner-large);
+    border-top-right-radius: var(--md-sys-shape-corner-large);
+}
+
+.changelog-entry:last-child {
+    border-bottom-left-radius: var(--md-sys-shape-corner-large);
+    border-bottom-right-radius: var(--md-sys-shape-corner-large);
+}
+
+.changelog-entry:only-child {
+    border-radius: var(--md-sys-shape-corner-large);
+}
+
+.changelog-entry .changelog-msg {
+    font-size: var(--font-size-md);
+    color: var(--md-sys-color-on-surface);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.changelog-entry .changelog-meta {
+    margin-top: 2px;
+    font-size: var(--font-size-xs);
+    color: var(--md-sys-color-outline);
+}
+
+.changelog-loading {
+    font-size: var(--font-size-md);
+    color: var(--md-sys-color-on-surface-variant);
+    text-align: center;
+    padding: 16px 0;
+}

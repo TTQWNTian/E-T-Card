@@ -17,6 +17,7 @@
 
     // ===== 弹窗 =====
     const modalOverlay = document.getElementById("modalOverlay");
+    const modalContent = document.getElementById("modalContent");
     const modalTitle = document.getElementById("modalTitle");
     const modalDesc = document.getElementById("modalDesc");
     const modalImg = document.getElementById("modalImg");
@@ -40,6 +41,8 @@
 
     function closeModal() {
         modalOverlay.classList.remove("active");
+        const oldList = document.getElementById("changelogList");
+        if (oldList) oldList.remove();
     }
 
     // ===== 日期格式化 =====
@@ -90,6 +93,7 @@
     const moreBtn = document.getElementById("moreBtn");
     const morePanel = document.getElementById("morePanel");
     const fullscreenStatus = document.getElementById("fullscreenStatus");
+    const changelogItem = document.getElementById("changelogItem");
 
     moreBtn.addEventListener("click", () => morePanel.classList.toggle("open"));
 
@@ -131,6 +135,127 @@
         );
         fullscreenStatus.textContent = isFull ? "已开启" : "未开启";
         fullscreenStatus.className = isFull ? "status-on" : "status-off";
+    });
+
+    // ===== 更新日志 =====
+    const GITHUB_REPO = "TTQWNTian/E-T-Card";
+    const CHANGELOG_CACHE_KEY = "etcard_changelog";
+    const CHANGELOG_CACHE_TTL = 1000 * 60 * 60;
+    let changelogCache = null;
+
+    function loadChangelogCache() {
+        if (changelogCache) return changelogCache;
+        try {
+            const raw = localStorage.getItem(CHANGELOG_CACHE_KEY);
+            if (!raw) return null;
+            const obj = JSON.parse(raw);
+            if (!obj || !obj.time || !obj.data) return null;
+            if (Date.now() - obj.time > CHANGELOG_CACHE_TTL) return null;
+            changelogCache = obj.data;
+            return changelogCache;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function saveChangelogCache(data) {
+        changelogCache = data;
+        try {
+            localStorage.setItem(
+                CHANGELOG_CACHE_KEY,
+                JSON.stringify({
+                    time: Date.now(),
+                    data
+                })
+            );
+        } catch (e) {}
+    }
+
+    function renderChangelogList(entries) {
+        const oldList = document.getElementById("changelogList");
+        if (oldList) oldList.remove();
+
+        const list = document.createElement("div");
+        list.id = "changelogList";
+
+        if (!entries || entries.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "changelog-loading";
+            empty.textContent = "暂无更新记录";
+            list.appendChild(empty);
+        } else {
+            entries.forEach((item) => {
+                const entry = document.createElement("div");
+                entry.className = "changelog-entry";
+
+                const msg = document.createElement("div");
+                msg.className = "changelog-msg";
+                msg.textContent = item.message;
+
+                const meta = document.createElement("div");
+                meta.className = "changelog-meta";
+                meta.textContent = item.date + " · " + item.author;
+
+                entry.appendChild(msg);
+                entry.appendChild(meta);
+                list.appendChild(entry);
+            });
+        }
+
+        modalContent.insertBefore(list, modalButtons);
+    }
+
+    function showChangelogModal() {
+        modalTitle.textContent = "更新日志";
+        modalDesc.textContent = "";
+        modalImg.style.display = "none";
+        modalButtons.innerHTML = "";
+
+        const btn = document.createElement("button");
+        btn.textContent = "关闭";
+        btn.className = "btn-primary";
+        btn.addEventListener("click", closeModal);
+        modalButtons.appendChild(btn);
+
+        modalOverlay.classList.add("active");
+    }
+
+    async function fetchChangelog() {
+        const cached = loadChangelogCache();
+        if (cached) return cached;
+
+        const res = await fetch(
+            `https://api.github.com/repos/${GITHUB_REPO}/commits?per_page=20`
+        );
+        if (!res.ok) throw new Error("fetch failed");
+        const data = await res.json();
+        const list = data.map((c) => ({
+            message: c.commit.message.split("\n")[0],
+            date: c.commit.author.date.slice(0, 10),
+            author: c.commit.author.name,
+        }));
+        saveChangelogCache(list);
+        return list;
+    }
+
+    changelogItem.addEventListener("click", async () => {
+        morePanel.classList.remove("open");
+
+        showChangelogModal();
+        const loading = document.createElement("div");
+        loading.className = "changelog-loading";
+        loading.textContent = "加载中...";
+        const list = document.createElement("div");
+        list.id = "changelogList";
+        list.appendChild(loading);
+        modalContent.insertBefore(list, modalButtons);
+
+        try {
+            const entries = await fetchChangelog();
+            renderChangelogList(entries);
+        } catch (e) {
+            renderChangelogList([]);
+        }
     });
 
     // ===== 内置透卡数据 =====
