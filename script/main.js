@@ -974,7 +974,7 @@
             }
             cx.putImageData(imageData, 0, 0);
         } else if (f.type === "dreamcore") {
-            const k = Math.max(0, Math.min(4, bgEffectValue / 25));
+            const k = Math.max(0, Math.min(3, bgEffectValue * 3 / 100));
 
             const scale = Math.max(0.2, 1 - 0.3 * k);
             const sw = Math.max(1, Math.round(w * scale));
@@ -1012,7 +1012,7 @@
                 b = b * 0.9 + gray * 0.1;
 
                 const lum = Math.max(0, Math.min(1, (r * 0.299 + g * 0.587 + b * 0.114) / 255));
-                const lift = Math.pow(lum, 1.2) * 45 * k;
+                const lift = Math.pow(lum, 1.2) * 30 * k;
                 r += lift;
                 g += lift;
                 b += lift;
