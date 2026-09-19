@@ -974,9 +974,9 @@
             }
             cx.putImageData(imageData, 0, 0);
         } else if (f.type === "dreamcore") {
-            const k = Math.max(0, Math.min(2, bgEffectValue / 50));
+            const k = Math.max(0, Math.min(4, bgEffectValue / 25));
 
-            const scale = Math.max(0.3, 1 - 0.3 * k);
+            const scale = Math.max(0.2, 1 - 0.3 * k);
             const sw = Math.max(1, Math.round(w * scale));
             const sh = Math.max(1, Math.round(h * scale));
 
@@ -1036,16 +1036,6 @@
             glow.addColorStop(0.5, "rgba(180, 170, 240, 0.12)");
             glow.addColorStop(1, "rgba(160, 150, 220, 0)");
             cx.fillStyle = glow;
-            cx.fillRect(0, 0, w, h);
-
-            const haze = cx.createRadialGradient(
-                w * 0.5, h * 0.4, 0,
-                w * 0.5, h * 0.4, Math.max(w, h) * 0.6
-            );
-            haze.addColorStop(0, `rgba(255, 252, 255, ${0.28 * k})`);
-            haze.addColorStop(0.6, `rgba(240, 235, 255, ${0.1 * k})`);
-            haze.addColorStop(1, "rgba(230, 225, 255, 0)");
-            cx.fillStyle = haze;
             cx.fillRect(0, 0, w, h);
 
             cx.globalCompositeOperation = "soft-light";
