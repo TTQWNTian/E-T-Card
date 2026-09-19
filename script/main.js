@@ -1011,6 +1011,12 @@
                 g = g * 0.9 + gray * 0.1;
                 b = b * 0.9 + gray * 0.1;
 
+                const lum = Math.max(0, Math.min(1, (r * 0.299 + g * 0.587 + b * 0.114) / 255));
+                const lift = Math.pow(lum, 1.2) * 45 * k;
+                r += lift;
+                g += lift;
+                b += lift;
+
                 sd[i] = Math.max(0, Math.min(255, r));
                 sd[i + 1] = Math.max(0, Math.min(255, g));
                 sd[i + 2] = Math.max(0, Math.min(255, b));
@@ -1030,6 +1036,16 @@
             glow.addColorStop(0.5, "rgba(180, 170, 240, 0.12)");
             glow.addColorStop(1, "rgba(160, 150, 220, 0)");
             cx.fillStyle = glow;
+            cx.fillRect(0, 0, w, h);
+
+            const haze = cx.createRadialGradient(
+                w * 0.5, h * 0.4, 0,
+                w * 0.5, h * 0.4, Math.max(w, h) * 0.6
+            );
+            haze.addColorStop(0, `rgba(255, 252, 255, ${0.28 * k})`);
+            haze.addColorStop(0.6, `rgba(240, 235, 255, ${0.1 * k})`);
+            haze.addColorStop(1, "rgba(230, 225, 255, 0)");
+            cx.fillStyle = haze;
             cx.fillRect(0, 0, w, h);
 
             cx.globalCompositeOperation = "soft-light";
