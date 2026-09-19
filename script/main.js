@@ -367,7 +367,10 @@
         },
         {
             label: "梦核",
-            type: "dreamcore"
+            type: "dreamcore",
+            value: 50,
+            min: 0,
+            max: 100
         },
     ];
 
@@ -971,7 +974,9 @@
             }
             cx.putImageData(imageData, 0, 0);
         } else if (f.type === "dreamcore") {
-            const scale = 0.7;
+            const k = Math.max(0, Math.min(2, bgEffectValue / 50));
+
+            const scale = Math.max(0.3, 1 - 0.3 * k);
             const sw = Math.max(1, Math.round(w * scale));
             const sh = Math.max(1, Math.round(h * scale));
 
@@ -988,7 +993,7 @@
                 let g = sd[i + 1];
                 let b = sd[i + 2];
 
-                const noise = (Math.random() - 0.5) * 28;
+                const noise = (Math.random() - 0.5) * 28 * k;
                 r += noise;
                 g += noise;
                 b += noise;
