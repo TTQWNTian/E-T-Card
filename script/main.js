@@ -231,7 +231,7 @@
         const data = await res.json();
         const list = data.map((c) => ({
             message: c.commit.message.split("\n")[0],
-            date: c.commit.author.date.slice(0, 10),
+            date: c.commit.committer.date.slice(0, 10),
             author: c.commit.author.name,
         }));
         saveChangelogCache(list);
