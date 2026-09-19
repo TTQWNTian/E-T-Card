@@ -362,15 +362,12 @@
             label: "无"
         },
         {
-            label: "马赛克",
-            type: "mosaic",
-            value: 16,
-            min: 2,
-            max: 60
-        },
-        {
             label: "黑白",
             type: "gray"
+        },
+        {
+            label: "梦核",
+            type: "dreamcore"
         },
     ];
 
@@ -965,8 +962,6 @@
         const f = bgEffectPresets[activeBgEffectIndex];
         if (!f || f.label === "无") return;
 
-        const ratio = w / (baseWidth || 360);
-
         if (f.type === "gray") {
             const imageData = cx.getImageData(0, 0, w, h);
             const data = imageData.data;
@@ -975,59 +970,111 @@
                 data[i] = data[i + 1] = data[i + 2] = g;
             }
             cx.putImageData(imageData, 0, 0);
-        } else if (f.type === "mosaic") {
-            const block = Math.max(2, Math.round(bgEffectValue * ratio));
-            const imageData = cx.getImageData(0, 0, w, h);
-            const data = imageData.data;
+        } else if (f.type === "dreamcore") {
+            const scale = 0.7;
+            const sw = Math.max(1, Math.round(w * scale));
+            const sh = Math.max(1, Math.round(h * scale));
 
-            const cx0 = w / 2;
-            const cy0 = h / 2;
-            const cols = Math.ceil(w / block / 2) + 1;
-            const rows = Math.ceil(h / block / 2) + 1;
+            const small = document.createElement("canvas");
+            small.width = sw;
+            small.height = sh;
+            const sctx = small.getContext("2d");
+            sctx.drawImage(cx.canvas, 0, 0, sw, sh);
 
-            for (let gy = -rows; gy <= rows; gy++) {
-                for (let gx = -cols; gx <= cols; gx++) {
-                    const x = Math.round(cx0 + gx * block - block / 2);
-                    const y = Math.round(cy0 + gy * block - block / 2);
+            const smallData = sctx.getImageData(0, 0, sw, sh);
+            const sd = smallData.data;
+            for (let i = 0; i < sd.length; i += 4) {
+                let r = sd[i];
+                let g = sd[i + 1];
+                let b = sd[i + 2];
 
-                    const sx = Math.min(w - 1, Math.max(0, Math.round(cx0 + gx * block)));
-                    const sy = Math.min(h - 1, Math.max(0, Math.round(cy0 + gy * block)));
+                const noise = (Math.random() - 0.5) * 28;
+                r += noise;
+                g += noise;
+                b += noise;
 
-                    const idx = (sy * w + sx) * 4;
-                    const r = data[idx],
-                        g = data[idx + 1],
-                        b = data[idx + 2];
+                r = r * 0.82 + b * 0.18 + 30;
+                g = g * 0.82 + r * 0.08 + 22;
+                b = b * 0.88 + r * 0.18 + 42;
 
-                    const x0 = Math.max(0, x);
-                    const y0 = Math.max(0, y);
-                    const x1 = Math.min(w, x + block);
-                    const y1 = Math.min(h, y + block);
+                r = (r - 128) * 1.15 + 128;
+                g = (g - 128) * 1.15 + 128;
+                b = (b - 128) * 1.15 + 128;
 
-                    for (let py = y0; py < y1; py++) {
-                        for (let px = x0; px < x1; px++) {
-                            const p = (py * w + px) * 4;
-                            data[p] = r;
-                            data[p + 1] = g;
-                            data[p + 2] = b;
-                        }
-                    }
-                }
+                const gray = r * 0.299 + g * 0.587 + b * 0.114;
+                r = r * 0.9 + gray * 0.1;
+                g = g * 0.9 + gray * 0.1;
+                b = b * 0.9 + gray * 0.1;
+
+                sd[i] = Math.max(0, Math.min(255, r));
+                sd[i + 1] = Math.max(0, Math.min(255, g));
+                sd[i + 2] = Math.max(0, Math.min(255, b));
             }
-            cx.putImageData(imageData, 0, 0);
+            sctx.putImageData(smallData, 0, 0);
+
+            cx.imageSmoothingEnabled = false;
+            cx.drawImage(small, 0, 0, sw, sh, 0, 0, w, h);
+            cx.imageSmoothingEnabled = true;
+
+            cx.globalCompositeOperation = "screen";
+            const glow = cx.createRadialGradient(
+                w * 0.5, h * 0.4, 0,
+                w * 0.5, h * 0.4, Math.max(w, h) * 0.7
+            );
+            glow.addColorStop(0, "rgba(200, 190, 255, 0.3)");
+            glow.addColorStop(0.5, "rgba(180, 170, 240, 0.12)");
+            glow.addColorStop(1, "rgba(160, 150, 220, 0)");
+            cx.fillStyle = glow;
+            cx.fillRect(0, 0, w, h);
+
+            cx.globalCompositeOperation = "soft-light";
+            const edge = cx.createRadialGradient(
+                w / 2, h / 2, Math.min(w, h) * 0.15,
+                w / 2, h / 2, Math.max(w, h) * 0.75
+            );
+            edge.addColorStop(0, "rgba(255, 255, 255, 0)");
+            edge.addColorStop(1, "rgba(190, 170, 255, 0.4)");
+            cx.fillStyle = edge;
+            cx.fillRect(0, 0, w, h);
+
+            cx.globalCompositeOperation = "source-over";
         }
     }
 
-    // ===== 视频 cover 绘制 =====
-    function drawVideoCover(ctx, video, w, h) {
+    // ===== 把虚线框内的视频画面画到目标画布 =====
+    function drawVideoIntoFrame(targetCtx, w, h) {
+        const vr = videoContainer.getBoundingClientRect();
+        const cr = cardCanvas.getBoundingClientRect();
+
+        const relLeft = (cr.left - vr.left) / vr.width;
+        const relTop = (cr.top - vr.top) / vr.height;
+        const relW = cr.width / vr.width;
+        const relH = cr.height / vr.height;
+
         const vw = video.videoWidth;
         const vh = video.videoHeight;
-        if (!vw || !vh) return;
-        const scale = Math.max(w / vw, h / vh);
-        const dw = vw * scale;
-        const dh = vh * scale;
-        const dx = (w - dw) / 2;
-        const dy = (h - dh) / 2;
-        ctx.drawImage(video, dx, dy, dw, dh);
+        const containerRatio = vr.width / vr.height;
+        const videoRatio = vw / vh;
+
+        let drawX, drawY, drawW, drawH;
+        if (videoRatio > containerRatio) {
+            drawH = vh;
+            drawW = vh * containerRatio;
+            drawX = (vw - drawW) / 2;
+            drawY = 0;
+        } else {
+            drawW = vw;
+            drawH = vw / containerRatio;
+            drawX = 0;
+            drawY = (vh - drawH) / 2;
+        }
+
+        const sx = drawX + relLeft * drawW;
+        const sy = drawY + relTop * drawH;
+        const sw = relW * drawW;
+        const sh = relH * drawH;
+
+        targetCtx.drawImage(video, sx, sy, sw, sh, 0, 0, w, h);
     }
 
     // ===== 预览背景实时渲染 =====
@@ -1037,28 +1084,39 @@
         const f = bgEffectPresets[activeBgEffectIndex];
         if (!f || f.label === "无") {
             bgCanvas.classList.remove("visible");
-            video.classList.remove("hidden");
             return;
         }
 
-        bgCanvas.classList.add("visible");
-        video.classList.add("hidden");
+        if (!cameraReady || !cardCanvas.width) return;
 
-        const rect = videoContainer.getBoundingClientRect();
-        const w = Math.max(1, Math.round(rect.width));
-        const h = Math.max(1, Math.round(rect.height));
+        const w = cardCanvas.width;
+        const h = cardCanvas.height;
+
+        // bgCanvas 只覆盖虚线框区域
+        const vr = videoContainer.getBoundingClientRect();
+        const cr = cardCanvas.getBoundingClientRect();
+        bgCanvas.style.left = (cr.left - vr.left) + "px";
+        bgCanvas.style.top = (cr.top - vr.top) + "px";
+        bgCanvas.style.width = cr.width + "px";
+        bgCanvas.style.height = cr.height + "px";
 
         if (bgCanvas.width !== w || bgCanvas.height !== h) {
             bgCanvas.width = w;
             bgCanvas.height = h;
-            bgCanvas.style.width = w + "px";
-            bgCanvas.style.height = h + "px";
         }
+
+        bgCanvas.classList.add("visible");
 
         previewBaseWidth = w;
 
-        drawVideoCover(bgCtx, video, w, h);
-        applyBgEffectToCtx(bgCtx, w, h, previewBaseWidth);
+        bgCtx.clearRect(0, 0, w, h);
+        drawVideoIntoFrame(bgCtx, w, h);
+
+        if (cardData) {
+            bgCtx.drawImage(cardCanvas, 0, 0, w, h);
+        }
+
+        applyBgEffectToCtx(bgCtx, w, h, w);
     }
 
     function startBgRenderLoop() {
@@ -1127,47 +1185,15 @@
         // 播放快门音效
         if (window.ETCardFX) window.ETCardFX.playShutterSound();
 
-        const w = cardCanvas.width,
-            h = cardCanvas.height;
+        const w = cardCanvas.width;
+        const h = cardCanvas.height;
         const c = document.createElement("canvas");
         c.width = w;
         c.height = h;
         const cx = c.getContext("2d");
 
-        // 以 videoContainer 为基准，映射到视频原始坐标
-        const vr = videoContainer.getBoundingClientRect();
-        const cr = cardCanvas.getBoundingClientRect();
-
-        const relLeft = (cr.left - vr.left) / vr.width;
-        const relTop = (cr.top - vr.top) / vr.height;
-        const relW = cr.width / vr.width;
-        const relH = cr.height / vr.height;
-
-        const vw = video.videoWidth;
-        const vh = video.videoHeight;
-        const containerRatio = vr.width / vr.height;
-        const videoRatio = vw / vh;
-
-        let drawX, drawY, drawW, drawH;
-        if (videoRatio > containerRatio) {
-            drawH = vh;
-            drawW = vh * containerRatio;
-            drawX = (vw - drawW) / 2;
-            drawY = 0;
-        } else {
-            drawW = vw;
-            drawH = vw / containerRatio;
-            drawX = 0;
-            drawY = (vh - drawH) / 2;
-        }
-
-        const sx = drawX + relLeft * drawW;
-        const sy = drawY + relTop * drawH;
-        const sw = relW * drawW;
-        const sh = relH * drawH;
-
-        cx.drawImage(video, sx, sy, sw, sh, 0, 0, w, h);
-        applyBgEffectToCtx(cx, w, h, previewBaseWidth);
+        // 只取虚线框内的视频画面
+        drawVideoIntoFrame(cx, w, h);
 
         if (cardData) {
             const img = new Image();
@@ -1175,19 +1201,23 @@
             img.onload = () => {
                 const cardLayer = buildCardLayer(img, w, h);
                 cx.drawImage(cardLayer, 0, 0);
+                applyBgEffectToCtx(cx, w, h, w);
                 showResultModal(c.toDataURL("image/png"));
             };
             img.onerror = () => {
                 statusHint.textContent = "透卡加载失败";
+                applyBgEffectToCtx(cx, w, h, w);
                 showResultModal(c.toDataURL("image/png"));
             };
             img.src = cardData;
             if (img.complete && img.naturalWidth > 0) {
                 const cardLayer = buildCardLayer(img, w, h);
                 cx.drawImage(cardLayer, 0, 0);
+                applyBgEffectToCtx(cx, w, h, w);
                 showResultModal(c.toDataURL("image/png"));
             }
         } else {
+            applyBgEffectToCtx(cx, w, h, w);
             showResultModal(c.toDataURL("image/png"));
         }
     }

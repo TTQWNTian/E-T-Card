@@ -457,17 +457,16 @@ body {
 
 #bgCanvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    z-index: 3;
     display: none;
+    box-sizing: border-box;
+    pointer-events: none;
 }
 
 #bgCanvas.visible {
     display: block;
-}
-
-#video.hidden {
-    visibility: hidden;
+    border: 2px dashed var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-corner-small);
 }
 
 #cardContainer {
